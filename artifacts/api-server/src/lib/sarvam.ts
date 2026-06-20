@@ -33,7 +33,7 @@ async function callSarvam(prompt: string): Promise<string> {
       "api-subscription-key": SARVAM_API_KEY,
     },
     body: JSON.stringify({
-      model: "sarvam-m",
+      model: "sarvam-30b",
       messages: [{ role: "user", content: prompt }],
       temperature: 0.1,
       max_tokens: 2000,

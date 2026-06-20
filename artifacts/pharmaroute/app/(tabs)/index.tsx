@@ -32,7 +32,7 @@ export default function DashboardScreen() {
   }, [refetchStats, refetchDisc, refetchTrends]);
 
   const handleSeedDemo = () => {
-    seedMutation.mutate({ data: {} });
+    seedMutation.mutate(undefined);
   };
 
   const s = StyleSheet.create({

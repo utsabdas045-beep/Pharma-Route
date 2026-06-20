@@ -1,4 +1,4 @@
-import neo4j, { Driver, Session } from "neo4j-driver";
+import neo4j, { Driver, Session, Integer } from "neo4j-driver";
 import { logger } from "./logger";
 
 let driver: Driver | null = null;
@@ -17,18 +17,33 @@ export function getDriver(): Driver {
   return driver;
 }
 
+function toNeo4jParams(params: Record<string, unknown>): Record<string, unknown> {
+  const out: Record<string, unknown> = {};
+  for (const [k, v] of Object.entries(params)) {
+    if (typeof v === "number" && Number.isInteger(v)) {
+      out[k] = neo4j.int(v);
+    } else {
+      out[k] = v;
+    }
+  }
+  return out;
+}
+
 export async function runQuery<T = Record<string, unknown>>(
   cypher: string,
   params: Record<string, unknown> = {}
 ): Promise<T[]> {
   const session: Session = getDriver().session();
   try {
-    const result = await session.run(cypher, params);
+    const result = await session.run(cypher, toNeo4jParams(params));
     return result.records.map((r) => r.toObject() as T);
   } finally {
     await session.close();
   }
 }
+
+// Re-export Integer type for use in routes
+export type { Integer };
 
 export async function initConstraints(): Promise<void> {
   const session = getDriver().session();
