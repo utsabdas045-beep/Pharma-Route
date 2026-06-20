@@ -1,22 +1,26 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: PharmaRoute - Biomedical Research Intelligence Platform
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
-    description: Health operations
+  - name: papers
+  - name: graph
+  - name: discoveries
+  - name: search
+  - name: reports
+  - name: demo
+
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,13 +28,702 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /papers:
+    get:
+      operationId: listPapers
+      tags: [papers]
+      summary: List all uploaded papers
+      responses:
+        "200":
+          description: List of papers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Paper"
+    post:
+      operationId: uploadPaper
+      tags: [papers]
+      summary: Upload and process a scientific paper
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PaperInput"
+      responses:
+        "201":
+          description: Paper uploaded and processing started
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Paper"
+
+  /papers/{id}:
+    get:
+      operationId: getPaper
+      tags: [papers]
+      summary: Get paper by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Paper details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Paper"
+        "404":
+          description: Not found
+
+  /papers/{id}/status:
+    get:
+      operationId: getPaperStatus
+      tags: [papers]
+      summary: Get processing status of a paper
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Processing status
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaperStatus"
+
+  /graph/stats:
+    get:
+      operationId: getGraphStats
+      tags: [graph]
+      summary: Get knowledge graph statistics
+      responses:
+        "200":
+          description: Graph stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GraphStats"
+
+  /graph/nodes:
+    get:
+      operationId: listGraphNodes
+      tags: [graph]
+      summary: List nodes in the graph
+      parameters:
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [Compound, Protein, Gene, Disease, Pathway]
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+      responses:
+        "200":
+          description: List of graph nodes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GraphNode"
+
+  /graph/paths:
+    post:
+      operationId: findGraphPath
+      tags: [graph]
+      summary: Find shortest path between two nodes
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PathQuery"
+      responses:
+        "200":
+          description: Path result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PathResult"
+
+  /graph/community:
+    get:
+      operationId: getCommunities
+      tags: [graph]
+      summary: Get detected communities/clusters
+      responses:
+        "200":
+          description: Community clusters
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Community"
+
+  /discoveries:
+    get:
+      operationId: listDiscoveries
+      tags: [discoveries]
+      summary: List drug repurposing discoveries
+      parameters:
+        - name: minConfidence
+          in: query
+          schema:
+            type: number
+            default: 0.5
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        "200":
+          description: List of discoveries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Discovery"
+
+  /discoveries/{id}:
+    get:
+      operationId: getDiscovery
+      tags: [discoveries]
+      summary: Get discovery details with evidence chain
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Discovery detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DiscoveryDetail"
+
+  /discoveries/run:
+    post:
+      operationId: runDiscoveryEngine
+      tags: [discoveries]
+      summary: Trigger the drug repurposing discovery engine
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DiscoveryRunInput"
+      responses:
+        "200":
+          description: Discovery run results
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Discovery"
+
+  /search:
+    post:
+      operationId: search
+      tags: [search]
+      summary: Hybrid graph+vector search
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SearchQuery"
+      responses:
+        "200":
+          description: Search results
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SearchResult"
+
+  /search/voice:
+    post:
+      operationId: voiceSearch
+      tags: [search]
+      summary: Process voice query and return structured results
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VoiceQuery"
+      responses:
+        "200":
+          description: Voice search result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SearchResult"
+
+  /reports:
+    get:
+      operationId: listReports
+      tags: [reports]
+      summary: List generated research reports
+      responses:
+        "200":
+          description: Reports list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Report"
+    post:
+      operationId: generateReport
+      tags: [reports]
+      summary: Generate a new research intelligence report
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReportInput"
+      responses:
+        "201":
+          description: Report generated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Report"
+
+  /reports/{id}:
+    get:
+      operationId: getReport
+      tags: [reports]
+      summary: Get a specific report
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Report detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Report"
+
+  /trends:
+    get:
+      operationId: getResearchTrends
+      tags: [graph]
+      summary: Get research trends and emerging topics
+      responses:
+        "200":
+          description: Trends data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ResearchTrend"
+
+  /demo/seed:
+    post:
+      operationId: seedDemoData
+      tags: [demo]
+      summary: Seed demo data into Neo4j
+      responses:
+        "200":
+          description: Demo data seeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SeedResult"
+
 components:
   schemas:
     HealthStatus:
       type: object
+      required: [status]
       properties:
         status:
           type: string
-      required:
-        - status
 
+    Paper:
+      type: object
+      required: [id, title, status, createdAt]
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        abstract:
+          type: ["string", "null"]
+        authors:
+          type: array
+          items:
+            type: string
+        status:
+          type: string
+          enum: [pending, processing, completed, failed]
+        entitiesExtracted:
+          type: integer
+        relationshipsExtracted:
+          type: integer
+        createdAt:
+          type: string
+        processedAt:
+          type: ["string", "null"]
+
+    PaperInput:
+      type: object
+      required: [title, content]
+      properties:
+        title:
+          type: string
+        abstract:
+          type: string
+        authors:
+          type: array
+          items:
+            type: string
+        content:
+          type: string
+        sourceUrl:
+          type: string
+
+    PaperStatus:
+      type: object
+      required: [id, status, progress]
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+        progress:
+          type: integer
+        currentStep:
+          type: string
+        entitiesFound:
+          type: integer
+        relationshipsFound:
+          type: integer
+
+    GraphStats:
+      type: object
+      required: [compounds, proteins, genes, diseases, pathways, papers, relationships]
+      properties:
+        compounds:
+          type: integer
+        proteins:
+          type: integer
+        genes:
+          type: integer
+        diseases:
+          type: integer
+        pathways:
+          type: integer
+        papers:
+          type: integer
+        relationships:
+          type: integer
+        lastUpdated:
+          type: string
+
+    GraphNode:
+      type: object
+      required: [id, name, type]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+          enum: [Compound, Protein, Gene, Disease, Pathway, Paper]
+        properties:
+          type: object
+          additionalProperties: true
+        connections:
+          type: integer
+
+    PathQuery:
+      type: object
+      required: [fromId, toId]
+      properties:
+        fromId:
+          type: string
+        toId:
+          type: string
+        maxHops:
+          type: integer
+          default: 5
+
+    PathResult:
+      type: object
+      required: [found, path]
+      properties:
+        found:
+          type: boolean
+        path:
+          type: array
+          items:
+            $ref: "#/components/schemas/GraphNode"
+        relationships:
+          type: array
+          items:
+            type: string
+        hops:
+          type: integer
+        confidence:
+          type: number
+
+    Community:
+      type: object
+      required: [id, name, nodeCount, type]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        nodeCount:
+          type: integer
+        type:
+          type: string
+        keyNodes:
+          type: array
+          items:
+            type: string
+        description:
+          type: string
+
+    Discovery:
+      type: object
+      required: [id, title, compound, disease, confidence, impactScore, biologicalPath, evidenceCount]
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        compound:
+          type: string
+        disease:
+          type: string
+        confidence:
+          type: number
+        impactScore:
+          type: number
+        biologicalPath:
+          type: array
+          items:
+            type: string
+        evidenceCount:
+          type: integer
+        supportingPapers:
+          type: array
+          items:
+            type: string
+        explanation:
+          type: string
+        createdAt:
+          type: string
+
+    DiscoveryDetail:
+      type: object
+      required: [id, title, compound, disease, confidence, impactScore, biologicalPath, evidenceCount, evidenceChain, explanation]
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        compound:
+          type: string
+        disease:
+          type: string
+        confidence:
+          type: number
+        impactScore:
+          type: number
+        biologicalPath:
+          type: array
+          items:
+            type: string
+        evidenceCount:
+          type: integer
+        supportingPapers:
+          type: array
+          items:
+            type: string
+        explanation:
+          type: string
+        evidenceChain:
+          type: array
+          items:
+            $ref: "#/components/schemas/EvidenceStep"
+        graphPath:
+          type: array
+          items:
+            $ref: "#/components/schemas/GraphNode"
+        createdAt:
+          type: string
+
+    EvidenceStep:
+      type: object
+      required: [from, relationship, to, confidence]
+      properties:
+        from:
+          type: string
+        relationship:
+          type: string
+        to:
+          type: string
+        confidence:
+          type: number
+        source:
+          type: string
+
+    DiscoveryRunInput:
+      type: object
+      properties:
+        targetDisease:
+          type: string
+        minConfidence:
+          type: number
+          default: 0.5
+        maxHops:
+          type: integer
+          default: 4
+
+    SearchQuery:
+      type: object
+      required: [query]
+      properties:
+        query:
+          type: string
+        nodeTypes:
+          type: array
+          items:
+            type: string
+        limit:
+          type: integer
+          default: 10
+
+    VoiceQuery:
+      type: object
+      required: [transcript]
+      properties:
+        transcript:
+          type: string
+
+    SearchResult:
+      type: object
+      required: [query, nodes, discoveries, explanation]
+      properties:
+        query:
+          type: string
+        nodes:
+          type: array
+          items:
+            $ref: "#/components/schemas/GraphNode"
+        discoveries:
+          type: array
+          items:
+            $ref: "#/components/schemas/Discovery"
+        explanation:
+          type: string
+        paths:
+          type: array
+          items:
+            $ref: "#/components/schemas/PathResult"
+
+    Report:
+      type: object
+      required: [id, title, type, createdAt, summary]
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        type:
+          type: string
+          enum: [discovery, trends, graph_analysis, comprehensive]
+        summary:
+          type: string
+        discoveries:
+          type: array
+          items:
+            $ref: "#/components/schemas/Discovery"
+        trends:
+          type: array
+          items:
+            $ref: "#/components/schemas/ResearchTrend"
+        graphStats:
+          $ref: "#/components/schemas/GraphStats"
+        createdAt:
+          type: string
+
+    ReportInput:
+      type: object
+      required: [title, type]
+      properties:
+        title:
+          type: string
+        type:
+          type: string
+          enum: [discovery, trends, graph_analysis, comprehensive]
+        targetDisease:
+          type: string
+
+    ResearchTrend:
+      type: object
+      required: [topic, score, paperCount, direction]
+      properties:
+        topic:
+          type: string
+        score:
+          type: number
+        paperCount:
+          type: integer
+        direction:
+          type: string
+          enum: [rising, stable, declining]
+        relatedTerms:
+          type: array
+          items:
+            type: string
+        description:
+          type: string
+
+    SeedResult:
+      type: object
+      required: [compounds, proteins, diseases, pathways, relationships, papers]
+      properties:
+        compounds:
+          type: integer
+        proteins:
+          type: integer
+        diseases:
+          type: integer
+        pathways:
+          type: integer
+        relationships:
+          type: integer
+        papers:
+          type: integer

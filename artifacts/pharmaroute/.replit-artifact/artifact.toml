@@ -1,0 +1,27 @@
+kind = "mobile"
+previewPath = "/"
+title = "PharmaRoute"
+version = "1.0.0"
+id = "artifacts/pharmaroute"
+router = "expo-domain"
+
+[[integratedSkills]]
+name = "expo"
+version = "1.0.0"
+
+[[services]]
+ensurePreviewReachable = "/status"
+name = "expo"
+paths = [ "/" ]
+localPort = 22806
+
+[services.development]
+run = "pnpm --filter @workspace/pharmaroute run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/pharmaroute", "run", "build" ]
+run = [ "pnpm", "--filter", "@workspace/pharmaroute", "run", "serve" ]
+
+[services.env]
+PORT = "22806"
+BASE_PATH = "/"

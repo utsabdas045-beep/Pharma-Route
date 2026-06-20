@@ -6,6 +6,11 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export interface HealthStatus {
-  status: string;
+export interface SeedResult {
+  compounds: number;
+  proteins: number;
+  diseases: number;
+  pathways: number;
+  relationships: number;
+  papers: number;
 }

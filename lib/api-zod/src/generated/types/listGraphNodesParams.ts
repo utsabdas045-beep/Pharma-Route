@@ -5,7 +5,9 @@
  * PharmaRoute - Biomedical Research Intelligence Platform
  * OpenAPI spec version: 0.1.0
  */
+import type { ListGraphNodesType } from './listGraphNodesType';
 
-export interface HealthStatus {
-  status: string;
-}
+export type ListGraphNodesParams = {
+type?: ListGraphNodesType;
+limit?: number;
+};

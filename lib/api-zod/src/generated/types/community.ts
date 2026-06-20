@@ -6,6 +6,11 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export interface HealthStatus {
-  status: string;
+export interface Community {
+  id: string;
+  name: string;
+  nodeCount: number;
+  type: string;
+  keyNodes?: string[];
+  description?: string;
 }

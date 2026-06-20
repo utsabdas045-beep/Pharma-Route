@@ -5,7 +5,10 @@
  * PharmaRoute - Biomedical Research Intelligence Platform
  * OpenAPI spec version: 0.1.0
  */
+import type { ReportInputType } from './reportInputType';
 
-export interface HealthStatus {
-  status: string;
+export interface ReportInput {
+  title: string;
+  type: ReportInputType;
+  targetDisease?: string;
 }

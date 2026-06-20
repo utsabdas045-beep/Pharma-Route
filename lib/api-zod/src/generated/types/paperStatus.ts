@@ -6,6 +6,11 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export interface HealthStatus {
+export interface PaperStatus {
+  id: string;
   status: string;
+  progress: number;
+  currentStep?: string;
+  entitiesFound?: number;
+  relationshipsFound?: number;
 }
