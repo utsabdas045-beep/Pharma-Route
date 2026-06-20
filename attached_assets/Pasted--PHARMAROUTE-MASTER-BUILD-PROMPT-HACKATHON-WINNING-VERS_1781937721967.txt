@@ -1,0 +1,539 @@
+# PHARMAROUTE MASTER BUILD PROMPT (HACKATHON WINNING VERSION)
+
+You are an elite team consisting of:
+
+* Staff Software Architect
+* Senior React Native Engineer
+* Senior Neo4j Graph Engineer
+* Senior Backend Engineer
+* Product Designer from a top SaaS company
+* DevOps Engineer
+* Hackathon Judge
+
+Your mission is to generate a COMPLETE, DEPLOYABLE, PRODUCTION-READY repository for a project called:
+
+# PharmaRoute
+
+A biomedical research intelligence platform that transforms scientific papers into a living biomedical knowledge graph and discovers hidden drug-disease relationships using AI and graph analytics.
+
+---
+
+# CRITICAL REQUIREMENTS
+
+The final deliverable must be:
+
+* Fully functional
+* Fully deployable
+* Production ready
+* Demo ready
+* Hackathon ready
+* Not a prototype
+* Not a proof of concept
+* Not scaffold code
+* Not placeholder code
+
+The repository must compile and run successfully.
+
+Generate ALL required files.
+
+At the end, package EVERYTHING into a single ZIP-ready repository structure.
+
+---
+
+# TOKEN OPTIMIZATION REQUIREMENT
+
+Use MINIMUM AI tokens.
+
+Do NOT generate:
+
+* unnecessary comments
+* verbose explanations
+* duplicated code
+* repeated boilerplate
+
+Generate:
+
+* reusable components
+* shared utilities
+* centralized configuration
+* modular architecture
+
+Prefer concise production-grade code.
+
+Avoid code bloat.
+
+---
+
+# PROJECT GOAL
+
+Researchers upload scientific papers.
+
+The system:
+
+1. Extracts biomedical text
+2. Extracts entities and relationships
+3. Builds a Neo4j knowledge graph
+4. Discovers hidden biological connections
+5. Suggests drug repurposing opportunities
+6. Provides explainable evidence
+7. Supports natural language and voice search
+8. Generates research intelligence reports
+
+---
+
+# REQUIRED TECH STACK
+
+Frontend:
+
+* Expo React Native
+* TypeScript
+* React Query
+* Zustand
+* React Navigation
+
+Backend:
+
+* Node.js
+* Express
+* TypeScript
+
+Database:
+
+* Neo4j AuraDB
+
+AI Layer:
+
+* Sarvam Vision
+* Sarvam LLM
+* OpenAI fallback
+
+Storage:
+
+* Cloudinary
+
+Admin Layer:
+
+* Base44
+
+Hosting:
+
+* Render
+
+DevOps:
+
+* Docker
+* GitHub Actions
+
+---
+
+# HACKATHON SCORING TARGET
+
+Design and build the project specifically to maximize:
+
+Uniqueness:
+15/15
+
+Complexity:
+30/30
+
+Relevance:
+20/20
+
+Business Viability:
+15/15
+
+UI/UX:
+10/10
+
+Presentation Readiness:
+10/10
+
+Target Base Score:
+
+95+/100
+
+Target Bonus Score:
+
+Expo +20
+
+Neo4j +20
+
+Base44 +10
+
+Social +2
+
+Target Final Score:
+
+147-152 / 155
+
+Every design decision should maximize judging impact.
+
+---
+
+# DIFFERENTIATING FEATURE
+
+Implement a DRUG REPURPOSING ENGINE.
+
+Do not stop at graph visualization.
+
+System must discover:
+
+Compound
+→ Protein
+→ Pathway
+→ Disease
+
+where no direct treatment relationship exists.
+
+Rank opportunities.
+
+Generate confidence score.
+
+Generate explanation.
+
+Generate evidence path.
+
+Generate supporting papers.
+
+---
+
+# GRAPH FEATURES
+
+Implement:
+
+1. Similarity Search
+2. Community Detection
+3. Shortest Path Discovery
+4. Multi-Hop Discovery
+5. Evidence Aggregation
+6. Citation Tracking
+7. Research Trend Detection
+8. Disease Cluster Detection
+
+---
+
+# HYBRID RETRIEVAL
+
+Implement:
+
+Graph Search
++
+Vector Search
++
+RAG
+
+Example:
+
+"What compounds are linked to Alzheimer's through inflammation pathways?"
+
+Return:
+
+* graph path
+* confidence
+* evidence
+* explanation
+
+---
+
+# UI/UX REQUIREMENTS
+
+IMPORTANT:
+
+DO NOT create AI-generated looking UI.
+
+DO NOT create generic hackathon UI.
+
+DO NOT create dashboard templates.
+
+DO NOT use cookie-cutter SaaS layouts.
+
+The UI must look handcrafted by a professional product designer.
+
+Inspiration:
+
+Linear
+Stripe Dashboard
+Notion
+Arc Browser
+Vercel
+
+Characteristics:
+
+* elegant spacing
+* subtle animations
+* premium typography
+* information hierarchy
+* visual clarity
+* zero clutter
+
+Design language:
+
+Biomedical Intelligence Platform
+
+NOT:
+
+Student Project
+
+NOT:
+
+AI Generated Dashboard
+
+NOT:
+
+Bootstrap Admin Template
+
+---
+
+# REQUIRED SCREENS
+
+1. Login
+
+2. Dashboard
+
+3. Paper Upload
+
+4. Graph Explorer
+
+5. Discovery Feed
+
+6. Voice Search
+
+7. Research Reports
+
+8. Admin Portal
+
+9. Drug Repurposing Center
+
+10. Research Trends
+
+---
+
+# DISCOVERY CARD DESIGN
+
+Each discovery card must show:
+
+* Opportunity Title
+* Confidence Score
+* Biological Path
+* Supporting Papers
+* Impact Rating
+* Explanation
+* View Graph Button
+
+Must be visually impressive.
+
+---
+
+# VOICE ASSISTANT
+
+Floating Action Button.
+
+Researchers can say:
+
+"Show compounds linked to Alzheimer's."
+
+Convert voice to query.
+
+Run graph retrieval.
+
+Display structured result.
+
+---
+
+# NEO4J DATA MODEL
+
+Nodes:
+
+Compound
+Protein
+Gene
+Disease
+Pathway
+Paper
+
+Relationships:
+
+INHIBITS
+ACTIVATES
+CAUSES
+TREATS
+TARGETS
+ASSOCIATED_WITH
+INTERACTS_WITH
+
+Use MERGE.
+
+Prevent duplicates.
+
+Create indexes.
+
+Create constraints.
+
+---
+
+# PDF INGESTION
+
+Accept:
+
+PDF
+Image
+
+Pipeline:
+
+Upload
+→ OCR
+→ Entity Extraction
+→ Triplet Generation
+→ Neo4j Ingestion
+
+Show live progress.
+
+---
+
+# EXPLAINABLE AI
+
+Every recommendation must explain:
+
+Why discovered
+
+Which path found
+
+Which papers support it
+
+Confidence score
+
+Evidence count
+
+No black-box output.
+
+---
+
+# REPORT GENERATION
+
+Generate downloadable PDF.
+
+Include:
+
+Executive Summary
+
+Graph Snapshot
+
+Top Discoveries
+
+Drug Opportunities
+
+Evidence Chains
+
+Research Trends
+
+---
+
+# DEMO MODE
+
+Create demo seed data:
+
+50 compounds
+
+100 proteins
+
+30 diseases
+
+500 relationships
+
+10 papers
+
+Demo must work instantly.
+
+---
+
+# API
+
+Generate Swagger documentation.
+
+Endpoints:
+
+/upload
+/extract
+/ingest
+/search
+/discoveries
+/voice-query
+/reports
+
+---
+
+# SECURITY
+
+JWT
+
+RBAC
+
+Validation
+
+Rate Limiting
+
+Audit Logs
+
+Environment Variables
+
+Helmet
+
+---
+
+# DEVOPS
+
+Dockerfile
+
+docker-compose
+
+Render deployment
+
+GitHub Actions
+
+Testing
+
+Linting
+
+Production Build
+
+---
+
+# DOCUMENTATION
+
+Generate:
+
+README.md
+
+Architecture.md
+
+API.md
+
+Deployment.md
+
+JudgeDemoScript.md
+
+PitchDeckContent.md
+
+---
+
+# FINAL DELIVERABLE
+
+Produce a complete repository.
+
+Validate all imports.
+
+Validate builds.
+
+Validate Docker setup.
+
+Validate deployment configs.
+
+Ensure project runs without manual fixes.
+
+Output final folder structure.
+
+Prepare repository so it can be compressed directly into:
+
+PharmaRoute_Final.zip
+
+The repository should be capable of achieving a realistic score of 147-152/155 when properly demonstrated.
